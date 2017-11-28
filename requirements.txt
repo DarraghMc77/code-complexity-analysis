@@ -1,2 +1,4 @@
 Flask
 Redis
+libgit2
+pygit2
