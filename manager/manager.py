@@ -3,7 +3,7 @@ from pygit2 import GIT_SORT_TOPOLOGICAL, GIT_SORT_REVERSE
 from flask import Flask
 import json
 
-GIT_REPO_URL = "https://github.com/DarraghMc77/chat-server.git"
+GIT_REPO_URL = "https://github.com/KupynOrest/DeblurGAN.git"
 GIT_REPO_PATH = "./repo"
 commit_list = []
 index = 0

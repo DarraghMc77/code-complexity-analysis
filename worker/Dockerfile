@@ -25,4 +25,4 @@ RUN pip install -r requirements.txt
 ADD worker.py /
 
 # run server
-CMD [ "python3", "-u", "worker.py" ]
+CMD python worker.py
