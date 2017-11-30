@@ -4,11 +4,12 @@ import requests
 import json
 import sys
 from radon.complexity import cc_visit
+import time
 
-GIT_REPO_URL = "https://github.com/KupynOrest/DeblurGAN.git"
-GIT_REPO_PATH = "./repo"
-API_URL = "http://10.6.92.89:4007/get_task"
-RESPONSE_URL = "http://10.6.92.89:4007/complexity"
+GIT_REPO_URL = 'https://github.com/KupynOrest/DeblurGAN.git'
+GIT_REPO_PATH = './repo'
+API_URL = 'http://10.6.85.31:4008/get_task'
+RESPONSE_URL = 'http://10.6.85.31:4008/complexity'
 
 def calculate_obj_complexity(filetext):
     complexities = []
@@ -35,8 +36,8 @@ def clone_git_repository():
     try:
         repo = Repository(GIT_REPO_PATH + '/.git')
     except GitError as e:
+        print("Cloning Repository")
         repo = clone_repository(GIT_REPO_URL, GIT_REPO_PATH)
-        print(repo.head)
     return repo
 
 def calculate_code_complexity(commit):
@@ -46,7 +47,8 @@ def calculate_code_complexity(commit):
     print(index)
 
 def send_cc_result(code_complexity, index):
-    json_complexity = json.dumps(code_complexity, sort_keys=True)
+    cc_result = {'complexity': code_complexity, 'index': index}
+    json_complexity = json.dumps(cc_result)
     headers = {'content-type': 'application/json'}
     response = requests.post(RESPONSE_URL, data=json_complexity, headers=headers)
     print(response)
@@ -54,17 +56,25 @@ def send_cc_result(code_complexity, index):
 def get_commit():
     response = requests.get(API_URL)
     if (response.status_code == 200):
-        return json.loads(response.text)['commit']
+        return json.loads(response.text)
     elif(response.status_code == 400):
         print("Work Complete")
         sys.exit()
 
 def main():
     repo = clone_git_repository()
-    commit = get_commit()
-    commit_obj = repo.get(commit)
-    total_complexity = calculate_cyclomatic_complexity(repo, commit_obj.tree, 0.0)
-    print(total_complexity)
+    print("Repository Cloned")
+    while True:
+        try:
+            data = get_commit()
+            commit = data['commit']
+            index = data['index']
+        except ValueError:
+            time.sleep(30)
+            continue
+        commit_obj = repo.get(commit)
+        total_complexity = calculate_cyclomatic_complexity(repo, commit_obj.tree, 0.0)
+        send_cc_result(total_complexity, index)
 
 if __name__ == '__main__':
     main()
