@@ -22,15 +22,14 @@ def calculate_obj_complexity(filetext):
         return 0.0
 
 # Needs fixing
-def calculate_cyclomatic_complexity(repo, directory, complexity_result):
+def extract_python_files(repo, directory):
     python_files = []
     for file in directory:
         if file.type == 'tree':
-            complexity_result += calculate_cyclomatic_complexity(repo, repo[file.id], complexity_result)
+            python_files += extract_python_files(repo, repo[file.id])
         elif file.name.endswith('.py'):
             python_files.append(file)
-            complexity_result += calculate_obj_complexity(repo[file.id].data)
-    return complexity_result
+    return python_files
 
 def clone_git_repository():
     try:
@@ -73,8 +72,14 @@ def main():
             time.sleep(30)
             continue
         commit_obj = repo.get(commit)
-        total_complexity = calculate_cyclomatic_complexity(repo, commit_obj.tree, 0.0)
-        send_cc_result(total_complexity, index)
+        python_files = extract_python_files(repo, commit_obj.tree)
+
+        complexity_result = 0
+
+        for file in python_files:
+            complexity_result += calculate_obj_complexity(repo[file.id].data)
+
+        send_cc_result(complexity_result, index)
 
 if __name__ == '__main__':
     main()
