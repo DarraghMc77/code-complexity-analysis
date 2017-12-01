@@ -58,8 +58,7 @@ def calculate_complexity():
     if(len(complexity_results) >= len(commit_list)):
         graph_results(complexity_results)
     print(complexity_results, file=sys.stderr)
-    response = request.get_json()
-    return json_complexity, 200
+    return request, 200
 
 @app.route("/get_task")
 def send_tasks():

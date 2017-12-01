@@ -15,6 +15,9 @@ make install
 
 RUN ldconfig
 
+WORKDIR /Users/Darragh/College/ScalableComputing/code-complexity-analysis/manager/
+ADD . /Users/Darragh/College/ScalableComputing/code-complexity-analysis/manager/
+
 # add requirements (to leverage Docker cache)
 ADD ./requirements.txt requirements.txt
 

@@ -8,8 +8,8 @@ import time
 
 GIT_REPO_URL = 'https://github.com/KupynOrest/DeblurGAN.git'
 GIT_REPO_PATH = './repo'
-API_URL = 'http://10.6.85.31:4008/get_task'
-RESPONSE_URL = 'http://10.6.85.31:4008/complexity'
+API_URL = 'http://10.6.69.232:4008/get_task'
+RESPONSE_URL = 'http://10.6.69.232:4008/complexity'
 
 def calculate_obj_complexity(filetext):
     complexities = []
