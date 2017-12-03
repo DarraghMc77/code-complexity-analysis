@@ -14,13 +14,13 @@ docker-compose up
 ```
 
 ## Results
-### Code Complexity Results
+### Cyclomatic Complexity Results
 
-[Image Description]https://github.com/DarraghMc77/code-complexity-analysis/blob/master/manager/graph.png
+![Alt](https://github.com/DarraghMc77/code-complexity-analysis/blob/master/manager/graph.png, "CC_Results")
 
 ### Time Taken Per Number of Slave Nodes
-..*1 Node - 3.530900239944458
-..*2 Nodes - 2.0651612281799316
-..*3 Nodes - 2.021984758377075
-..*4 Nodes - 1.7649774551391602
-..*5 Nodes - 1.7970986366271973
+* 1 Node - 3.530900239944458
+* 2 Nodes - 2.0651612281799316
+* 3 Nodes - 2.021984758377075
+* 4 Nodes - 1.7649774551391602
+* 5 Nodes - 1.7970986366271973
